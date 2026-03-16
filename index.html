@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>יום הולדת שמח — Feliz Cumpleaños</title>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-deep: #0038b8;
+      --blue-mid: #1a5cde;
+      --blue-light: #4d85f0;
+      --gold: #c9a84c;
+      --gold-light: #f0d080;
+      --white: #f7f9ff;
+      --star-size: 120px;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: #001a5c;
+      font-family: 'Cormorant Garamond', serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Fondo con rayas israelíes */
+    .bg-stripes {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: 
+        linear-gradient(
+          to bottom,
+          #001a5c 0%,
+          #001a5c 8%,
+          #0038b8 8%,
+          #0038b8 20%,
+          #002080 20%,
+          #002080 80%,
+          #0038b8 80%,
+          #0038b8 92%,
+          #001a5c 92%,
+          #001a5c 100%
+        );
+    }
+
+    /* Patrón de estrellas de fondo sutil */
+    .bg-stars {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      opacity: 0.04;
+      background-image: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cpolygon points='60,0 73,38 113,38 82,61 93,100 60,77 27,100 38,61 7,38 47,38' fill='%23ffffff' stroke='none'/%3E%3C/svg%3E");
+      background-size: 120px 104px;
+    }
+
+    /* Brillo central */
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(77,133,240,0.15) 0%, transparent 70%);
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 20px;
+    }
+
+    /* Estrella de David */
+    .star-of-david {
+      position: relative;
+      width: var(--star-size);
+      height: var(--star-size);
+      margin-bottom: 32px;
+      filter: drop-shadow(0 0 30px rgba(201,168,76,0.7));
+      transition: filter 0.3s ease;
+    }
+
+    .star-of-david svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .title-he {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-align: center;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(77,133,240,0.5), 0 2px 4px rgba(0,0,0,0.4);
+      margin-bottom: 8px;
+    }
+
+    .title-es {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(247,249,255,0.6);
+      letter-spacing: 0.25em;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 56px;
+    }
+
+    /* Botón */
+    .btn-wrap {
+      position: relative;
+    }
+
+    .btn-ring {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(201,168,76,0.3);
+      animation: ring-pulse 2.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .btn-ring:nth-child(2) {
+      inset: -28px;
+      border-color: rgba(201,168,76,0.15);
+      animation-delay: 0.7s;
+    }
+
+    @keyframes ring-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.06); opacity: 1; }
+    }
+
+    .btn {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: radial-gradient(circle at 35% 35%, #1a5cde, #0038b8 50%, #001f80);
+      box-shadow:
+        0 0 0 2px rgba(201,168,76,0.5),
+        0 0 0 4px rgba(0,24,92,0.8),
+        0 0 40px rgba(26,92,222,0.5),
+        inset 0 1px 1px rgba(255,255,255,0.15),
+        inset 0 -2px 4px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      outline: none;
+    }
+
+    .btn:hover {
+      transform: scale(1.04);
+      box-shadow:
+        0 0 0 2px var(--gold),
+        0 0 0 5px rgba(0,24,92,0.8),
+        0 0 60px rgba(26,92,222,0.7),
+        inset 0 1px 1px rgba(255,255,255,0.2),
+        inset 0 -2px 4px rgba(0,0,0,0.3);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .btn-label-he {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    .btn-label-es {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: var(--white);
+      letter-spacing: 0.08em;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    /* Mensaje emergente */
+    .message-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .message-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .message-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,10,50,0.85);
+      backdrop-filter: blur(8px);
+    }
+
+    .message-card {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(145deg, #001a5c, #002a8a);
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 4px;
+      padding: 60px 50px;
+      max-width: 520px;
+      width: 90%;
+      text-align: center;
+      box-shadow:
+        0 0 0 1px rgba(77,133,240,0.2),
+        0 30px 80px rgba(0,0,0,0.6),
+        0 0 60px rgba(26,92,222,0.2);
+      transform: scale(0.85) translateY(20px);
+      transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .message-overlay.show .message-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .message-star {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+      filter: drop-shadow(0 0 16px rgba(201,168,76,0.9));
+      animation: star-spin 8s linear infinite;
+    }
+
+    @keyframes star-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .message-title {
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      text-shadow: 0 0 30px rgba(201,168,76,0.5);
+      margin-bottom: 8px;
+    }
+
+    .message-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--white);
+      margin-bottom: 28px;
+    }
+
+    .message-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: rgba(247,249,255,0.8);
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+
+    .message-text strong {
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .message-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 0 auto 28px;
+    }
+
+    .message-close {
+      background: none;
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold-light);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      letter-spacing: 0.2em;
+      padding: 12px 36px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+
+    .message-close:hover {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--gold);
+    }
+
+    /* Confeti de estrellas */
+    .confetti-container {
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .confetti-star {
+      position: absolute;
+      top: -60px;
+      font-size: 1.2rem;
+      animation: confetti-fall linear forwards;
+      opacity: 0;
+    }
+
+    @keyframes confetti-fall {
+      0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(110vh) rotate(720deg); }
+    }
+
+    /* Decoración de bordes */
+    .corner {
+      position: fixed;
+      width: 80px;
+      height: 80px;
+      opacity: 0.25;
+    }
+    .corner-tl { top: 20px; left: 20px; }
+    .corner-tr { top: 20px; right: 20px; transform: scaleX(-1); }
+    .corner-bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+    .corner-br { bottom: 20px; right: 20px; transform: scale(-1); }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 18px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'Frank Ruhl Libre', serif;
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: rgba(201,168,76,0.4);
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-stripes"></div>
+  <div class="bg-stars"></div>
+  <div class="bg-glow"></div>
+
+  <!-- Esquinas decorativas -->
+  <svg class="corner corner-tl" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 78 L2 2 L78 2" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+    <path d="M14 78 L14 14 L78 14" stroke="#c9a84c" stroke-width="0.5" fill="none"/>
+  </svg>
+  <svg class="corner corner-tr" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 78 L2 2 L78 2" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+    <path d="M14 78 L14 14 L78 14" stroke="#c9a84c" stroke-width="0.5" fill="none"/>
+  </svg>
+  <svg class="corner corner-bl" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 78 L2 2 L78 2" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+    <path d="M14 78 L14 14 L78 14" stroke="#c9a84c" stroke-width="0.5" fill="none"/>
+  </svg>
+  <svg class="corner corner-br" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 78 L2 2 L78 2" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+    <path d="M14 78 L14 14 L78 14" stroke="#c9a84c" stroke-width="0.5" fill="none"/>
+  </svg>
+
+  <div class="container">
+    <!-- Estrella de David -->
+    <div class="star-of-david">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f0d080"/>
+            <stop offset="50%" style="stop-color:#c9a84c"/>
+            <stop offset="100%" style="stop-color:#a07830"/>
+          </linearGradient>
+        </defs>
+        <!-- Triángulo hacia arriba -->
+        <polygon points="60,10 104,83 16,83" fill="none" stroke="url(#starGrad)" stroke-width="4" stroke-linejoin="round"/>
+        <!-- Triángulo hacia abajo -->
+        <polygon points="60,110 16,37 104,37" fill="none" stroke="url(#starGrad)" stroke-width="4" stroke-linejoin="round"/>
+        <!-- Relleno suave de la estrella -->
+        <polygon points="60,10 104,83 16,83" fill="rgba(201,168,76,0.06)"/>
+        <polygon points="60,110 16,37 104,37" fill="rgba(201,168,76,0.06)"/>
+        <!-- Punto central -->
+        <circle cx="60" cy="60" r="4" fill="url(#starGrad)" opacity="0.6"/>
+      </svg>
+    </div>
+
+    <h1 class="title-he">יום הולדת שמח</h1>
+    <p class="title-es">Feliz Cumpleaños</p>
+
+    <div class="btn-wrap">
+      <div class="btn-ring"></div>
+      <div class="btn-ring"></div>
+      <button class="btn" id="mainBtn" onclick="celebrate()">
+        <span class="btn-icon">🎂</span>
+        <span class="btn-label-he">לחץ כאן</span>
+        <span class="btn-label-es">Feliz Cumpleaños</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Confeti -->
+  <div class="confetti-container" id="confetti"></div>
+
+  <!-- Overlay del mensaje -->
+  <div class="message-overlay" id="messageOverlay">
+    <div class="message-backdrop" onclick="closeMessage()"></div>
+    <div class="message-card">
+      <svg class="message-star" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="60,10 104,83 16,83" fill="none" stroke="#c9a84c" stroke-width="4"/>
+        <polygon points="60,110 16,37 104,37" fill="none" stroke="#c9a84c" stroke-width="4"/>
+      </svg>
+      <div class="message-title">יום הולדת שמח!</div>
+      <div class="message-subtitle">¡Feliz Cumpleaños!</div>
+      <div class="message-divider"></div>
+      <p class="message-text">
+        Que este día especial esté lleno de alegría,<br>
+        amor y bendiciones infinitas.<br><br>
+        <strong>!תזכו לשנים רבות</strong><br>
+        <em>¡Que merezcas muchos años más!</em>
+      </p>
+      <div class="message-divider"></div>
+      <button class="message-close" onclick="closeMessage()">✦ Cerrar ✦</button>
+    </div>
+  </div>
+
+  <div class="footer">✦ &nbsp; ישראל &nbsp; ✦</div>
+
+  <script>
+    // Audio generado con Web Audio API (sin archivos externos)
+    function playBirthdaySound() {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+      // Melodía de Yom Huledet Sameach (versión israelí simplificada)
+      // Basada en la melodía tradicional de cumpleaños
+      const notes = [
+        // Sol Sol La Sol Do Si  (primera frase)
+        { freq: 392, dur: 0.2 }, { freq: 392, dur: 0.2 }, { freq: 440, dur: 0.4 },
+        { freq: 392, dur: 0.4 }, { freq: 523, dur: 0.4 }, { freq: 494, dur: 0.8 },
+        // Sol Sol La Sol Re Do  (segunda frase)
+        { freq: 392, dur: 0.2 }, { freq: 392, dur: 0.2 }, { freq: 440, dur: 0.4 },
+        { freq: 392, dur: 0.4 }, { freq: 587, dur: 0.4 }, { freq: 523, dur: 0.8 },
+        // Sol Sol Sol Mi Do Si La  (tercera frase)
+        { freq: 392, dur: 0.2 }, { freq: 392, dur: 0.2 }, { freq: 784, dur: 0.4 },
+        { freq: 659, dur: 0.4 }, { freq: 523, dur: 0.4 }, { freq: 494, dur: 0.4 }, { freq: 440, dur: 0.8 },
+        // Fa# Fa# Mi Do Re Do (final)
+        { freq: 698, dur: 0.2 }, { freq: 698, dur: 0.2 }, { freq: 659, dur: 0.4 },
+        { freq: 523, dur: 0.4 }, { freq: 587, dur: 0.4 }, { freq: 523, dur: 0.8 },
+      ];
+
+      let t = ctx.currentTime + 0.05;
+
+      notes.forEach(note => {
+        // Oscilador principal
+        const osc = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        const osc2 = ctx.createOscillator();
+
+        osc.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        osc.type = 'triangle';
+        osc2.type = 'sine';
+        osc.frequency.value = note.freq;
+        osc2.frequency.value = note.freq * 2;
+
+        gainNode.gain.setValueAtTime(0, t);
+        gainNode.gain.linearRampToValueAtTime(0.18, t + 0.02);
+        gainNode.gain.linearRampToValueAtTime(0.12, t + note.dur * 0.6);
+        gainNode.gain.linearRampToValueAtTime(0, t + note.dur * 0.92);
+
+        osc.start(t);
+        osc.stop(t + note.dur);
+        osc2.start(t);
+        osc2.stop(t + note.dur);
+
+        t += note.dur;
+      });
+
+      // Campanitas al inicio
+      const bellFreqs = [1046, 1318, 1567, 2093];
+      bellFreqs.forEach((f, i) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type = 'sine';
+        o.frequency.value = f;
+        g.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.1);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.6);
+        o.start(ctx.currentTime + i * 0.1);
+        o.stop(ctx.currentTime + i * 0.1 + 0.6);
+      });
+    }
+
+    function spawnConfetti() {
+      const container = document.getElementById('confetti');
+      container.innerHTML = '';
+      const symbols = ['✡', '⭐', '🌟', '✨', '💫', '⭐', '✡'];
+      const colors = ['#c9a84c', '#f0d080', '#4d85f0', '#ffffff', '#a07830'];
+
+      for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-star';
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.fontSize = (0.8 + Math.random() * 1.4) + 'rem';
+        el.style.color = colors[Math.floor(Math.random() * colors.length)];
+        el.style.animationDuration = (2 + Math.random() * 3) + 's';
+        el.style.animationDelay = (Math.random() * 1.5) + 's';
+        container.appendChild(el);
+      }
+
+      setTimeout(() => { container.innerHTML = ''; }, 6000);
+    }
+
+    function celebrate() {
+      playBirthdaySound();
+      spawnConfetti();
+
+      setTimeout(() => {
+        document.getElementById('messageOverlay').classList.add('show');
+      }, 300);
+    }
+
+    function closeMessage() {
+      document.getElementById('messageOverlay').classList.remove('show');
+    }
+
+    // Cerrar con ESC
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeMessage();
+    });
+  </script>
+</body>
+</html>
